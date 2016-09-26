@@ -12,6 +12,7 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
     TextView tv;
+    int idx = 1;
 
 
     @Override
@@ -23,13 +24,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void goButton(View view) {
         tv.setText("Workin ...");
-        new MFAT().execute();
+        //Execute a thread in serial way
+        new MFAT().execute(idx);
+        //Execute a thread in parallel way
+        //new MFAT().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 5);
+        idx++;
     }
 
-    class MFAT extends AsyncTask<Integer, Void, Void>{
+    class MFAT extends AsyncTask<Integer, Integer, String>{
 
         @Override
-        protected Void doInBackground(Integer... integer) {//Void ... it equals to Void[]
+        protected String doInBackground(Integer... integer) {//Void ... it equals to Void[]
             try {
                 Thread.sleep(integer[0] * 1000);
             } catch (InterruptedException e) {
@@ -40,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            tv.setText("Done");
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            tv.setText(s);
         }
     }
 }
