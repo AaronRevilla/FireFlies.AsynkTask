@@ -25,14 +25,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goButton(View view) {
-        tv.setText("Workin ...");
+        tv.setText("Working ...");
         //Execute a thread in serial way
         //new MFAT().execute(idx);
         //Execute a thread in parallel way
-        new MFAT().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, idx);
+        Task2 task2 = new Task2();
+        task2.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new Object[]{idx, tv, tv2});
         idx++;
     }
 
+
+    /*
     class MFAT extends AsyncTask<Integer, Integer, String>{
 
         @Override
@@ -61,4 +64,5 @@ public class MainActivity extends AppCompatActivity {
             tv2.setText(values[0].toString());
         }
     }
+    */
 }
